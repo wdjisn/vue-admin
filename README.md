@@ -56,6 +56,4 @@ npm run build
 
 
 ## 后端仓库
-```
-https://github.com/wdjisn/laravel-admin.git
-```
+-  https://github.com/wdjisn/laravel-admin.git
