@@ -13,6 +13,7 @@ body,
 }
 
 body {
+    font-size: 12px;
     font-family: 'PingFang SC', "Helvetica Neue", Helvetica, "microsoft yahei", arial, STHeiTi, sans-serif;
 }
 
@@ -176,10 +177,20 @@ a {
 
 .el-button--small,
 .el-button--small.is-round {
-    padding: 8px 9px !important;
+    padding: 6.5px 5.5px !important;
 } 
 
 .dialog-footer {
     display: flex;
     justify-content: flex-end;
+}
+
+.el-table {
+    font-size: 12px !important;
+    color:#606266 !important;
+}
+
+.el-form-item__label {
+    font-size: 12px !important;
+    color:#606266 !important;
 }

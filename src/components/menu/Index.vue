@@ -1,20 +1,20 @@
 <template>
     <div class="menu-list">
         <div class="container">
-            <el-button type="primary" icon="el-icon-circle-plus-outline" class="mt20" @click="handleCreate">添 加</el-button>
-            <el-button type="primary" icon="el-icon-refresh" @click="handleRefresh">刷 新</el-button>
-            <el-table :data="data" border class="table" ref="multipleTable" header-cell-class-name="table-header">
+            <el-button type="primary" icon="el-icon-circle-plus-outline" class="mt20" @click="handleCreate">添加</el-button>
+            <el-button type="primary" icon="el-icon-refresh" @click="handleRefresh">刷新</el-button>
+            <el-table :data="data" class="table" ref="multipleTable" header-cell-class-name="table-header">
                 <el-table-column label="菜单名称">
                     <template slot-scope="scope">
                         <div class="cell" v-if="scope.row.level == 1">{{ scope.row.name }}</div>
                         <div class="cell" v-else-if="scope.row.level == 2">
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <i class="el-icon-caret-right"></i>
+                            <i class="el-icon-caret-right" style="color: #c0c4cc"></i>
                             &nbsp;{{ scope.row.name }}
                         </div>
                         <div class="cell" v-else-if="scope.row.level == 3">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <i class="el-icon-caret-right"></i>
+                            <i class="el-icon-caret-right" style="color: #c0c4cc"></i>
                             &nbsp;{{ scope.row.name }}
                         </div>
                     </template>
@@ -34,40 +34,41 @@
                             v-model="scope.row.status"
                             active-color="#409EFF"
                             inactive-color="#dcdfe6"
-                            active-text="开"
-                            inactive-text="关"
+                            active-text="开启"
+                            inactive-text="关闭"
                         ></el-switch>
                     </template>
                 </el-table-column>
                 <el-table-column prop="created_at" label="创建时间"></el-table-column>
-                <el-table-column label="操作" minWidth="170" align="center">
+                <el-table-column label="操作" width="180px" align="center">
                     <template slot-scope="scope">
                         <el-button v-if="scope.row.is_admin != 1" icon="el-icon-edit" type="primary" @click="handleEdit(scope.row)"
-                            >编 辑</el-button
+                            >编辑</el-button
                         >
                         <el-button
                             v-if="scope.row.is_admin != 1"
                             icon="el-icon-delete"
                             type="danger"
                             @click="handleDelete(scope.$index, scope.row)"
-                            >删 除</el-button
+                            >删除</el-button
                         >
                     </template>
                 </el-table-column>
             </el-table>
         </div>
         <!-- 添加弹出框 -->
-        <el-dialog title="添加" :visible.sync="createVisible" width="450px" custom-class="style-dialog">
+        <drawer title="添加菜单" :display.sync="createVisible" :width="drawerWidth">
             <create-menu v-if="createVisible == true" @on-success="onSuccess"></create-menu>
-        </el-dialog>
+        </drawer>
         <!-- 编辑弹出框 -->
-        <el-dialog title="编辑" :visible.sync="editVisible" width="450px" custom-class="style-dialog">
+        <drawer title="编辑菜单" :display.sync="editVisible" :width="drawerWidth">
             <edit-menu v-if="editVisible == true" :menuInfo="menuInfo" @on-success="onSuccess"></edit-menu>
-        </el-dialog>
+        </drawer>
     </div>
 </template>
 
 <script>
+import drawer from '../component/Drawer';
 import editMenu from './Edit';
 import createMenu from './Create';
 import { delMenu } from '../../api/menu';
@@ -75,9 +76,10 @@ import { menuList } from '../../api/menu';
 import { quickEditMenu } from '../../api/menu';
 export default {
     name: 'menus',
-    components: { createMenu, editMenu },
+    components: { createMenu, editMenu, drawer },
     data() {
         return {
+            drawerWidth: '500px',
             data: [],
             menuInfo: {},
             createVisible: false,
@@ -152,6 +154,15 @@ export default {
 </script>
 
 <style lang="scss">
+.custom-tree-node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-right: 8px;
+}
+
 .handle-box {
     margin-bottom: 20px;
 }
@@ -161,10 +172,7 @@ export default {
 }
 .table {
     width: 100%;
-    font-size: 14px;
-}
-.red {
-    color: #ff0000;
+    font-size: 12px;
 }
 .mr10 {
     margin-right: 10px;
@@ -181,29 +189,29 @@ export default {
 .tablescope {
     .el-switch__label--left {
         position: relative;
-        left: 45px;
+        left: 55px;
         color: #fff;
-        z-index: -1111;
+        z-index: -100;
     }
     .el-switch__core {
-        width: 45px !important;
+        width: 55px !important;
     }
     .el-switch__label--right {
         position: relative;
-        right: 46px;
+        right: 55px;
         color: #fff;
-        z-index: -1111;
+        z-index: -100;
     }
     .el-switch__label--right.is-active {
-        z-index: 1111;
+        z-index: 100;
         color: #fff !important;
     }
     .el-switch__label--left.is-active {
-        z-index: 1111;
+        z-index: 100;
         color: #777777 !important;
     }
     .el-switch__label * {
-        font-size: 13px;
+        font-size: 12px;
     }
 }
 </style>

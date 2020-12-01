@@ -8,9 +8,11 @@ import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/icon.css';
 import './assets/js/directives';
 import 'babel-polyfill'
+import VueClipboard from 'vue-clipboard2'
+
 
 let echarts = require('echarts/echarts.all')
-
+Vue.use(VueClipboard)
 Vue.config.productionTip = false;
 Vue.use(VueI18n);
 Vue.use(ElementUI, {

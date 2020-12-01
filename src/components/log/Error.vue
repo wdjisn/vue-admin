@@ -17,13 +17,10 @@
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
                 <el-button type="primary" icon="el-icon-refresh" @click="handleReset">重置</el-button>
             </div>
-            <el-table :data="data" border class="table" ref="multipleTable" header-cell-class-name="table-header">
+            <el-table :data="data" class="table" ref="multipleTable" header-cell-class-name="table-header">
                 <el-table-column label="相关参数" align="center">
                     <template slot-scope="scope">
                         <div>
-                            <div class="error-param" v-if="scope.row.status == 0">
-                                <el-button type="danger" plain @click="solve(scope.row.id)">标记已处理</el-button>
-                            </div>
                             <div class="error-param">
                                 <span class="error-title">Method:</span>
                                 <el-tag type="warning">{{ scope.row.method }}</el-tag>
@@ -53,6 +50,13 @@
                         <div class="error-message">Param：{{ scope.row.param }}</div>
                         <div class="error-message">File：{{ scope.row.file }}</div>
                         <div class="error-message">Line：{{ scope.row.line }}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="date" label="操作" width="100px">
+                    <template slot-scope="scope">
+                        <div class="error-param" v-if="scope.row.status == 0">
+                            <el-button type="danger" @click="solve(scope.row.id)">点击确认</el-button>
+                        </div>
                     </template>
                 </el-table-column>
             </el-table>
@@ -170,7 +174,6 @@ export default {
 }
 .table {
     width: 100%;
-    font-size: 14px;
 }
 .red {
     color: #ff0000;
@@ -189,7 +192,7 @@ export default {
     width: 70px;
     color: #222;
     text-align: left;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
 }
 .error-param,
@@ -200,7 +203,7 @@ export default {
 }
 .el-tag.el-tag--danger,
 .el-tag--small {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .error-status {

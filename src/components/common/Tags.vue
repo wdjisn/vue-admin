@@ -36,6 +36,9 @@ export default {
         },
         // 关闭单个标签
         closeTags(index) {
+            if (this.tagsList.length == 1) {
+                return false;
+            }
             const delItem = this.tagsList.splice(index, 1)[0];
             const item = this.tagsList[index] ? this.tagsList[index] : this.tagsList[index - 1];
             if (item) {

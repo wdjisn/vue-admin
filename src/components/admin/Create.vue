@@ -1,6 +1,6 @@
 <template>
     <div class="admin-create">
-        <el-form :model="form" :rules="rules" ref="createAdmin" label-width="78px">
+        <el-form :model="form" :rules="rules" ref="createAdmin" label-width="75px">
             <el-form-item prop="username" label="用户名">
                 <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
             </el-form-item>
@@ -21,14 +21,14 @@
                     v-model="form.status_name"
                     active-color="#409EFF"
                     inactive-color="#dcdfe6"
-                    active-text="开"
-                    inactive-text="关"
+                    active-text="开启"
+                    inactive-text="关闭"
                 ></el-switch>
             </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="saveCreate" :loading="loading">确定添加</el-button>
+            </el-form-item>
         </el-form>
-        <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="saveCreate" :loading="loading">确 定</el-button>
-        </span>
     </div>
 </template>
 
@@ -102,32 +102,32 @@ export default {
 .tablescope {
     .el-switch__label--left {
         position: relative;
-        left: 57px;
+        left: 55px;
         color: #fff;
-        z-index: -1111;
+        z-index: -100;
     }
     .el-switch__core {
-        width: 53px !important;
+        width: 55px !important;
     }
     .el-switch__label--right {
         position: relative;
-        right: 57px;
+        right: 55px;
         color: #fff;
-        z-index: -1111;
+        z-index: -100;
     }
     .el-switch__label--right.is-active {
-        z-index: 1111;
+        z-index: 100;
         color: #fff !important;
     }
     .el-switch__label--left.is-active {
-        z-index: 1111;
+        z-index: 100;
         color: #777777 !important;
     }
     .el-switch__label * {
-        font-size: 13px;
+        font-size: 12px;
     }
 }
 .admin-create .el-switch {
-    margin-left: -25px;
+    margin-left: -30px;
 }
 </style>

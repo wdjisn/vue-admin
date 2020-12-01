@@ -40,7 +40,7 @@
             </div>
         </div>
         <!-- 修改密码 -->
-        <el-dialog title="修改密码" :visible.sync="passwordVisible" width="450px" custom-class="style-dialog">
+        <el-dialog title="修改密码" :visible.sync="passwordVisible" :close-on-click-modal="false" width="450px" custom-class="style-dialog">
             <change-password v-if="passwordVisible == true" @on-success="onSuccess"></change-password>
         </el-dialog>
     </div>

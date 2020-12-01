@@ -1,31 +1,32 @@
 <template>
     <div class="admin-edit">
-        <el-form ref="editAdmin" :model="form" label-width="78px">
-            <el-form-item label="用户名">
+        <el-form :rules="rules" ref="editAdmin" :model="form" label-width="65px">
+            <el-form-item prop="username" label="用户名">
                 <el-input v-model="adminInfo.username" disabled></el-input>
             </el-form-item>
             <el-form-item label="密码">
                 <el-input v-model="form.password"></el-input>
                 <span class="admin-edit-tips">非必填，修改密码时可填</span>
             </el-form-item>
-            <el-form-item label="角色">
+            <el-form-item prop="role_id" label="角色">
                 <el-select v-model="form.role_id" placeholder="请选择角色" style="width: 100%">
                     <el-option v-for="item in roles" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="状态">
                 <el-switch
+                    class="tablescope"
                     v-model="form.status_name"
                     active-color="#409EFF"
                     inactive-color="#dcdfe6"
-                    active-text="正常"
-                    inactive-text="禁用"
+                    active-text="开启"
+                    inactive-text="关闭"
                 ></el-switch>
             </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="saveEdit" :loading="loading">确定编辑</el-button>
+            </el-form-item>
         </el-form>
-        <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="saveEdit" :loading="loading">确 定</el-button>
-        </span>
     </div>
 </template>
 
@@ -52,7 +53,11 @@ export default {
                 page: 1,
                 per_page: 1000
             },
-            roles: []
+            roles: [],
+            rules: {
+                username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+                role_id: [{ required: true, message: '请选择角色', trigger: 'blur' }]
+            }
         };
     },
     created() {
@@ -89,3 +94,37 @@ export default {
     }
 };
 </script>
+
+<style lang="scss">
+.tablescope {
+    .el-switch__label--left {
+        position: relative;
+        left: 55px;
+        color: #fff;
+        z-index: -100;
+    }
+    .el-switch__core {
+        width: 55px !important;
+    }
+    .el-switch__label--right {
+        position: relative;
+        right: 55px;
+        color: #fff;
+        z-index: -100;
+    }
+    .el-switch__label--right.is-active {
+        z-index: 100;
+        color: #fff !important;
+    }
+    .el-switch__label--left.is-active {
+        z-index: 100;
+        color: #777777 !important;
+    }
+    .el-switch__label * {
+        font-size: 12px;
+    }
+}
+.admin-edit .el-switch {
+    margin-left: -30px;
+}
+</style>

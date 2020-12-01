@@ -54,6 +54,21 @@ export default new Router({
                     path: '/errorLog',
                     meta: { title: '错误日志' },
                     component: () => import('../components/log/Error.vue'),
+                },
+                {
+                    path: '/upload',
+                    meta: { title: '文件上传' },
+                    component: () => import('../components/component/Upload.vue'),
+                },
+                {
+                    path: '/clipboard',
+                    meta: { title: '复制粘贴' },
+                    component: () => import('../components/component/Clipboard.vue'),
+                },
+                {
+                    path: '/drawer',
+                    meta: { title: '抽屉组件' },
+                    component: () => import('../components/component/Drawer.vue'),
                 }
             ]
         }

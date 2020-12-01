@@ -3,11 +3,12 @@
         <div class="container">
             <div class="handle-box">
                 <el-input v-model="query.username" placeholder="用户名" class="handle-input mr10"></el-input>
-                <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜 索</el-button>
-                <el-button type="primary" icon="el-icon-refresh" @click="handleReset">重 置</el-button>
+                <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+                <el-button type="primary" icon="el-icon-refresh" @click="handleReset">重置</el-button>
+                <el-button type="warning" icon="el-icon-download" @click="handleExport">导出</el-button>
             </div>
-            <el-button type="primary" icon="el-icon-circle-plus-outline" class="mt20" @click="handleCreate">添 加</el-button>
-            <el-table :data="data" border class="table" ref="multipleTable" header-cell-class-name="table-header">
+            <el-button type="primary" icon="el-icon-circle-plus-outline" class="mt20" @click="handleCreate">添加</el-button>
+            <el-table :data="data">
                 <el-table-column prop="username" label="用户名"></el-table-column>
                 <el-table-column prop="role_name" label="角色"></el-table-column>
                 <el-table-column label="最后登录IP">
@@ -25,13 +26,13 @@
                             v-model="scope.row.status"
                             active-color="#409EFF"
                             inactive-color="#dcdfe6"
-                            active-text="开"
-                            inactive-text="关"
+                            active-text="开启"
+                            inactive-text="关闭"
                             v-if="scope.row.is_admin != 1"
                         ></el-switch>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" align="center" minWidth="170">
+                <el-table-column label="操作" align="center" width="180px">
                     <template slot-scope="scope">
                         &nbsp;
                         <el-button
@@ -40,14 +41,14 @@
                             icon="el-icon-edit"
                             type="primary"
                             @click="handleEdit(scope.row)"
-                            >编 辑</el-button
+                            >编辑</el-button
                         >
                         <el-button
                             v-if="scope.row.is_admin != 1"
                             icon="el-icon-delete"
                             type="danger"
                             @click="handleDelete(scope.$index, scope.row)"
-                            >删 除</el-button
+                            >删除</el-button
                         >
                     </template>
                 </el-table-column>
@@ -64,28 +65,31 @@
             </div>
         </div>
         <!-- 添加弹出框 -->
-        <el-dialog title="添加" :visible.sync="createVisible" width="450px" custom-class="style-dialog">
+        <drawer title="添加管理员" :display.sync="createVisible" :width="drawerWidth">
             <create-admin v-if="createVisible == true" @on-success="onSuccess"></create-admin>
-        </el-dialog>
+        </drawer>
         <!-- 编辑弹出框 -->
-        <el-dialog title="编辑" :visible.sync="editVisible" width="450px" custom-class="style-dialog">
+        <drawer title="编辑管理员" :display.sync="editVisible" :width="drawerWidth">
             <edit-admin v-if="editVisible == true" :adminInfo="adminInfo" @on-success="onSuccess"></edit-admin>
-        </el-dialog>
+        </drawer>
     </div>
 </template>
 
 <script>
+import drawer from '../component/Drawer';
 import editAdmin from './Edit';
 import createAdmin from './Create';
 import { delAdmin } from '../../api/admin';
 import { adminList } from '../../api/admin';
 import { quickEditAdmin } from '../../api/admin';
 import { formatDate } from '@/assets/js/common.js';
+import { json2excel } from '@/utils/common';
 export default {
     name: 'admin',
-    components: { createAdmin, editAdmin },
+    components: { createAdmin, editAdmin, drawer },
     data() {
         return {
+            drawerWidth: '500px',
             query: {
                 username: '',
                 page: 1,
@@ -183,6 +187,26 @@ export default {
                     });
                 })
                 .catch(() => {});
+        },
+        // 数据导出
+        handleExport() {
+            var name = '管理员列表';
+            var header = ['用户名', '角色', '创建时间'];
+            var filter = ['username', 'role_name', 'created_at'];
+            var data = [
+                { username: 'admin', role_name: '超级管理员', created_at: '2020-11-15 17:44:57' },
+                { username: 'style', role_name: '技术', created_at: '2020-11-25 22:31:19' }
+            ];
+            let excelDatas = [
+                {
+                    tHeader: header,
+                    filterVal: filter,
+                    tableDatas: data,
+                    sheetName: name
+                }
+            ];
+            //引入的函数
+            json2excel(excelDatas, name, true, 'xlsx');
         }
     }
 };
@@ -200,9 +224,6 @@ export default {
     width: 100%;
     font-size: 14px;
 }
-.red {
-    color: #ff0000;
-}
 .mr10 {
     margin-right: 10px;
 }
@@ -218,29 +239,29 @@ export default {
 .tablescope {
     .el-switch__label--left {
         position: relative;
-        left: 45px;
+        left: 55px;
         color: #fff;
-        z-index: -1111;
+        z-index: -100;
     }
     .el-switch__core {
-        width: 45px !important;
+        width: 55px !important;
     }
     .el-switch__label--right {
         position: relative;
-        right: 46px;
+        right: 55px;
         color: #fff;
-        z-index: -1111;
+        z-index: -100;
     }
     .el-switch__label--right.is-active {
-        z-index: 1111;
+        z-index: 100;
         color: #fff !important;
     }
     .el-switch__label--left.is-active {
-        z-index: 1111;
+        z-index: 100;
         color: #777777 !important;
     }
     .el-switch__label * {
-        font-size: 13px;
+        font-size: 12px;
     }
 }
 </style>

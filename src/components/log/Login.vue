@@ -15,7 +15,7 @@
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
                 <el-button type="primary" icon="el-icon-refresh" @click="handleReset">重置</el-button>
             </div>
-            <el-table :data="data" border class="table" ref="multipleTable" header-cell-class-name="table-header">
+            <el-table :data="data" class="table" ref="multipleTable" header-cell-class-name="table-header">
                 <el-table-column prop="id" label="ID" width="80" align="center"></el-table-column>
                 <el-table-column prop="username" label="用户名"></el-table-column>
                 <el-table-column prop="role_name" label="角色"></el-table-column>

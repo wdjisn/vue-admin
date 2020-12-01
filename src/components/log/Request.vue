@@ -1,7 +1,7 @@
 <template>
     <div class="request-log">
         <div class="container">
-            <el-table :data="data" border class="table" ref="multipleTable" header-cell-class-name="table-header">
+            <el-table :data="data" class="table" ref="multipleTable" header-cell-class-name="table-header">
                 <el-table-column prop="path" label="路径"></el-table-column>
                 <el-table-column prop="method" label="方式"></el-table-column>
                 <el-table-column prop="ip" label="IP"></el-table-column>

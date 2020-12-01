@@ -1,16 +1,17 @@
 <template>
     <div class="role-edit">
-        <el-form :model="form" :rules="rules" ref="editRole" label-width="78px">
+        <el-form :model="form" :rules="rules" ref="editRole" label-width="75px">
             <el-form-item prop="name" label="角色名称">
                 <el-input v-model="form.name"></el-input>
             </el-form-item>
             <el-form-item label="角色状态">
                 <el-switch
+                    class="tablescope"
                     v-model="form.status_name"
                     active-color="#409EFF"
                     inactive-color="#dcdfe6"
-                    active-text="正常"
-                    inactive-text="禁用"
+                    active-text="开启"
+                    inactive-text="关闭"
                 ></el-switch>
             </el-form-item>
             <el-form-item prop="menu_ids" label="角色权限">
@@ -24,10 +25,10 @@
                     :props="defaultProps"
                 ></el-tree>
             </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="saveEdit" :loading="loading">确定编辑</el-button>
+            </el-form-item>
         </el-form>
-        <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="saveEdit" :loading="loading">确 定</el-button>
-        </span>
     </div>
 </template>
 
@@ -119,3 +120,37 @@ export default {
     }
 };
 </script>
+
+<style lang="scss">
+.tablescope {
+    .el-switch__label--left {
+        position: relative;
+        left: 55px;
+        color: #fff;
+        z-index: -100;
+    }
+    .el-switch__core {
+        width: 55px !important;
+    }
+    .el-switch__label--right {
+        position: relative;
+        right: 55px;
+        color: #fff;
+        z-index: -100;
+    }
+    .el-switch__label--right.is-active {
+        z-index: 100;
+        color: #fff !important;
+    }
+    .el-switch__label--left.is-active {
+        z-index: 100;
+        color: #777777 !important;
+    }
+    .el-switch__label * {
+        font-size: 12px;
+    }
+}
+.role-edit .el-switch {
+    margin-left: -30px;
+}
+</style>

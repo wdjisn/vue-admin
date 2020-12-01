@@ -1,9 +1,9 @@
 <template>
     <div class="role-list">
         <div class="container">
-            <el-button type="primary" icon="el-icon-circle-plus-outline" class="mt20" @click="handleCreate">添 加</el-button>
-            <el-button type="primary" icon="el-icon-refresh" @click="handleRefresh">刷 新</el-button>
-            <el-table :data="data" border class="table" ref="multipleTable" header-cell-class-name="table-header">
+            <el-button type="primary" icon="el-icon-circle-plus-outline" class="mt20" @click="handleCreate">添加</el-button>
+            <el-button type="primary" icon="el-icon-refresh" @click="handleRefresh">刷新</el-button>
+            <el-table :data="data" class="table" ref="multipleTable" header-cell-class-name="table-header">
                 <el-table-column prop="name" label="角色名称"></el-table-column>
                 <el-table-column prop="created_at" label="创建时间"></el-table-column>
                 <el-table-column label="状态" align="center">
@@ -14,8 +14,8 @@
                             v-model="scope.row.status"
                             active-color="#409EFF"
                             inactive-color="#dcdfe6"
-                            active-text="开"
-                            inactive-text="关"
+                            active-text="开启"
+                            inactive-text="关闭"
                             v-if="scope.row.is_admin != 1"
                         ></el-switch>
                     </template>
@@ -23,14 +23,14 @@
                 <el-table-column label="操作" minWidth="170" align="center">
                     <template slot-scope="scope">
                         <el-button v-if="scope.row.is_admin != 1" icon="el-icon-edit" type="primary" @click="handleEdit(scope.row)"
-                            >编 辑</el-button
+                            >编辑</el-button
                         >
                         <el-button
                             v-if="scope.row.is_admin != 1"
                             icon="el-icon-delete"
                             type="danger"
                             @click="handleDelete(scope.$index, scope.row)"
-                            >删 除</el-button
+                            >删除</el-button
                         >
                     </template>
                 </el-table-column>
@@ -47,17 +47,18 @@
             </div>
         </div>
         <!-- 添加弹出框 -->
-        <el-dialog title="添加" :visible.sync="createVisible" width="600px" custom-class="style-dialog">
+        <drawer title="添加角色" :display.sync="createVisible" :width="drawerWidth">
             <create-role v-if="createVisible == true" @on-success="onSuccess"></create-role>
-        </el-dialog>
+        </drawer>
         <!-- 编辑弹出框 -->
-        <el-dialog title="编辑" :visible.sync="editVisible" width="600px" custom-class="style-dialog">
+        <drawer title="编辑角色" :display.sync="editVisible" :width="drawerWidth">
             <edit-role v-if="editVisible == true" :roleId="roleId" @on-success="onSuccess"></edit-role>
-        </el-dialog>
+        </drawer>
     </div>
 </template>
 
 <script>
+import drawer from '../component/Drawer';
 import createRole from './Create';
 import editRole from './Edit';
 import { roleList } from '../../api/role';
@@ -65,9 +66,10 @@ import { delRole } from '../../api/role';
 import { quickEditRole } from '../../api/role';
 export default {
     name: 'role',
-    components: { createRole, editRole },
+    components: { createRole, editRole, drawer },
     data() {
         return {
+            drawerWidth: '500px',
             query: {
                 username: '',
                 page: 1,
@@ -167,9 +169,6 @@ export default {
     width: 100%;
     font-size: 14px;
 }
-.red {
-    color: #ff0000;
-}
 .mr10 {
     margin-right: 10px;
 }
@@ -185,29 +184,29 @@ export default {
 .tablescope {
     .el-switch__label--left {
         position: relative;
-        left: 45px;
+        left: 55px;
         color: #fff;
-        z-index: -1111;
+        z-index: -100;
     }
     .el-switch__core {
-        width: 45px !important;
+        width: 55px !important;
     }
     .el-switch__label--right {
         position: relative;
-        right: 46px;
+        right: 55px;
         color: #fff;
-        z-index: -1111;
+        z-index: -100;
     }
     .el-switch__label--right.is-active {
-        z-index: 1111;
+        z-index: 100;
         color: #fff !important;
     }
     .el-switch__label--left.is-active {
-        z-index: 1111;
+        z-index: 100;
         color: #777777 !important;
     }
     .el-switch__label * {
-        font-size: 13px;
+        font-size: 12px;
     }
 }
 </style>
