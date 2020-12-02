@@ -1,16 +1,15 @@
 <template>
-    <div class="upload">
+    <div class="upload container">
         <div id="video_container">
-            <div id="pickfiles">上传视频</div>
-            <div>
-                <div class="upload_info">
-                    <b>共{{ fileSize }}MB | 已上传{{ fileLoaded }} | 上传速度{{ fileSpeed }}/s</b>
-                </div>
-                <div>
-                    <b>上传进度：{{ filePercent }}%</b>
-                </div>
-                <button @click="pauseUpload">暂停上传</button>
-                <button @click="continueUpload">继续上传</button>
+            <el-button id="pickfiles" type="primary"><i class="el-icon-upload"></i>&nbsp;上传视频</el-button>
+            <el-progress :percentage="filePercent"></el-progress>
+            <p>
+                共{{ fileSize }}MB &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; 已上传{{ fileLoaded }}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                上传速度{{ fileSpeed }}/s
+            </p>
+            <div class="btn-container">
+                <el-button @click="pauseUpload" type="primary"><i class="el-icon-video-pause"></i>&nbsp;暂停上传</el-button>
+                <el-button @click="continueUpload" type="primary"><i class="el-icon-video-play">&nbsp;</i>继续上传</el-button>
             </div>
         </div>
         <div class="cover-pic" v-if="coverPic">
@@ -173,12 +172,23 @@ export default {
     mounted() {
         this.phoneType = this.getPhoneType();
         this.initUploader();
-        // this.getToken(() => {
-        //     this.initUploader();
-        // });
     }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.upload {
+    .el-progress {
+        width: 400px;
+        margin: 20px 0;
+    }
+
+    .btn-container {
+        margin-top: 20px;
+    }
+
+    .cover-pic {
+        margin-top: 20px;
+    }
+}
 </style>

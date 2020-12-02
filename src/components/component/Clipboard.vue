@@ -1,17 +1,15 @@
 <template>
-    <div>
-        <div>
-            <span>网址：</span>
-            <el-input v-model="value" style="width: 60%; margin: 0 10px"></el-input>
-            <el-button
-                v-clipboard:copy="value"
-                v-clipboard:success="copySuc"
-                v-clipboard:error="copyFail"
-                icon="el-icon-copy-document"
-                type="primary"
-                >复制</el-button
-            >
-        </div>
+    <div class="clipboard container">
+        <span>网址：</span>
+        <el-input v-model="value"></el-input>
+        <el-button
+            v-clipboard:copy="value"
+            v-clipboard:success="copySuc"
+            v-clipboard:error="copyFail"
+            icon="el-icon-copy-document"
+            type="primary"
+            >复制</el-button
+        >
     </div>
 </template>
 
@@ -35,3 +33,12 @@ export default {
     }
 };
 </script>
+
+<style lang="scss">
+.clipboard {
+    .el-input {
+        width: 60%;
+        margin: 0 10px;
+    }
+}
+</style>
