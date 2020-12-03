@@ -2,20 +2,23 @@ import Vue from 'vue';
 import axios from 'axios';
 import router from '../router';
 import { Base64 } from 'js-base64'
+import md5 from 'js-md5';
 
 const service = axios.create({
-    baseURL:'admin',
+    baseURL: 'admin',
     timeout: 5000
 });
 
 // 请求拦截器
 service.interceptors.request.use(
     config => {
+        let time = Math.round(new Date() / 1000);
+        let sign = md5("appname=LaravelAdmin&appsecret=Sl7qkF2DKglAdlk4397qdKCUf3&timestamp=" + time);
         // 设置请求头
         let data = {
-            appname: 'LaravelStyle',
-            token: localStorage.getItem('token'),
-            timestamp: Math.round(new Date() / 1000)
+            sign: sign,
+            timestamp: time,
+            token: localStorage.getItem('token')
         }
         config.headers.token = Base64.encode(JSON.stringify(data));
         return config;

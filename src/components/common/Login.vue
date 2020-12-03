@@ -87,30 +87,31 @@ export default {
     width: 100%;
     height: 100%;
     background-image: url(../../assets/img/login.jpg);
-    background-size: 100%;
+    background-size: 100% 100%;
 }
 .ms-title {
     width: 100%;
-    line-height: 30px;
-    margin-top: 30px;
+    line-height: 35px;
+    margin-top: 35px;
+    margin-bottom: -15px;
     color: #333333;
     text-align: center;
-    font-size: 24px;
-    font-weight: 500;
+    font-size: 28px;
+    font-weight: bolder;
     letter-spacing: 4px;
 }
 .ms-login {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 350px;
-    margin: -190px 0 0 -175px;
+    width: 345px;
+    margin: -220px 0 0 -172px;
     border-radius: 5px;
     background: rgba(255, 255, 255, 1);
     overflow: hidden;
 }
 .ms-content {
-    padding: 30px 30px;
+    padding: 50px 30px;
 }
 .login-btn {
     text-align: center;
@@ -119,7 +120,8 @@ export default {
     width: 100%;
     height: 36px;
     font-size: 14px;
-    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 0px;
     letter-spacing: 10px;
 }
 .login-tips {
