@@ -1,16 +1,16 @@
 import request from '../utils/request';
 
 // 获取管理员列表
-export const adminList = query => { return request({ url: '/admins', method: 'get', params: query }) };
+export function adminList(data) { return request({ url: '/admins', method: 'get', params: data })}
 
 // 添加管理员
-export const createAdmin = query => { return request({ url: '/admin', method: 'post', params: query }) };
+export function createAdmin(data) { return request({ url: '/admin', method: 'post', data })}
 
 // 编辑管理员
-export const editAdmin = query => { return request({ url: '/admin', method: 'put', params: query }) };
+export function editAdmin(data) { return request({ url: '/admin', method: 'put', data })}
 
 // 快捷修改管理员
-export const quickEditAdmin = query => { return request({ url: '/admin', method: 'patch', params: query }) };
+export function quickEditAdmin(data) { return request({ url: '/admin', method: 'patch', data })}
 
 // 删除管理员
-export const delAdmin = query => { return request({ url: '/admin', method: 'delete', params: query }) };
+export function delAdmin(data) { return request({ url: '/admin', method: 'delete', data })}

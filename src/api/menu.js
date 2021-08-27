@@ -1,19 +1,19 @@
 import request from '../utils/request';
 
 // 获取菜单列表
-export const menuList = query => { return request({ url: '/menus', method: 'get', params: query }) };
+export function menuList(data) { return request({ url: '/menus', method: 'get', params: data })}
 
 // 获取树形菜单
-export const menuTree = query => { return request({ url: '/menu/tree', method: 'get', params: query }) };
+export function menuTree(data) { return request({ url: '/menu/tree', method: 'get', params: data })}
 
 // 添加菜单
-export const createMenu = query => { return request({ url: '/menu', method: 'post', params: query }); };
+export function createMenu(data) { return request({ url: '/menu', method: 'post', data })}
 
 // 编辑菜单
-export const editMenu = query => { return request({ url: '/menu', method: 'put', params: query }) };
+export function editMenu(data) { return request({ url: '/menu', method: 'put', data })}
 
 // 快捷修改菜单
-export const quickEditMenu = query => { return request({ url: '/menu', method: 'patch', params: query }) };
+export function quickEditMenu(data) { return request({ url: '/menu', method: 'patch', data })}
 
 // 删除菜单
-export const delMenu = query => { return request({ url: '/menu', method: 'delete', params: query }) };
+export function delMenu(data) { return request({ url: '/menu', method: 'delete', data })}
