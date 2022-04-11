@@ -33,36 +33,22 @@
 
 
 ## 安装步骤
-```
-下载代码
-
-git clone https://github.com/wdjisn/vue-admin.git
-```
-
-```
-进入代码目录
-
-cd vueAdmin                                                
-```
-
-```
-安装项目依赖，等待安装完成之后，安装失败可用 cnpm 或 yarn
-
-npm install                                                     
-```
-
-```
-运行项目，浏访问 http://localhost:8080
-
-npm run serve                                                   
-```
-
-```
-执行构建命令，生成的dist文件夹
-
-npm run build                                                   
-```
+-  git clone https://github.com/wdjisn/vue-admin.git
+-  cd 代码目录 
+-  npm install
+-  npm run serve
+-  浏览器访问：http://localhost:8080
 
 
 ## 后端仓库
 -  https://github.com/wdjisn/laravel-admin.git
+
+
+## 在线体验
+- 网址：http://laravel.baobaonames.cn/#/login
+- 账号：style
+- 密码：123456
+
+
+## 疑问解答
+- 微信：wdjisn
