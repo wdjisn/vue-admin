@@ -34,7 +34,7 @@ service.interceptors.response.use(
     response => {
         if (response.status === 200) {
             // 拦截登录失效、无权限操作
-            if (response.data.code === 1001) {
+            if (response.data.code === 401) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('username');
                 localStorage.removeItem('error_count');
