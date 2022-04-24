@@ -6,7 +6,7 @@ module.exports = {
         // 设置代理
         proxy: {
             '/admin': {
-                target: 'http://local.laravelStyle.com',
+                target: 'http://local.laravelAdmin.com',
                 changeOrigin: true,
                 pathRewrite: {
                     '^/': ''
