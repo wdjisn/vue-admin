@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import drawer from '../component/Drawer';
+import drawer from '../../components/Drawer';
 import editAdmin from './Edit';
 import createAdmin from './Create';
 import { delAdmin } from '../../api/admin';

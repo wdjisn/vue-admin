@@ -1,31 +1,11 @@
 <template>
-    <div class="menu-list">
+    <div class="role-list">
         <div class="container">
             <el-button type="primary" icon="el-icon-circle-plus-outline" class="mt20" @click="handleCreate">添加</el-button>
             <el-button type="primary" icon="el-icon-refresh" @click="handleRefresh">刷新</el-button>
             <el-table :data="data" class="table" ref="multipleTable" header-cell-class-name="table-header">
-                <el-table-column label="菜单名称">
-                    <template slot-scope="scope">
-                        <div class="cell" v-if="scope.row.level == 1">{{ scope.row.name }}</div>
-                        <div class="cell" v-else-if="scope.row.level == 2">
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <i class="el-icon-caret-right" style="color: #c0c4cc"></i>
-                            &nbsp;{{ scope.row.name }}
-                        </div>
-                        <div class="cell" v-else-if="scope.row.level == 3">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <i class="el-icon-caret-right" style="color: #c0c4cc"></i>
-                            &nbsp;{{ scope.row.name }}
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="alias" label="别名"></el-table-column>
-                <el-table-column prop="sort" label="排序"></el-table-column>
-                <el-table-column label="图标">
-                    <template slot-scope="scope">
-                        <i :class="scope.row.icon" style="font-size: 18px"></i>
-                    </template>
-                </el-table-column>
+                <el-table-column prop="name" label="角色名称"></el-table-column>
+                <el-table-column prop="created_at" label="创建时间"></el-table-column>
                 <el-table-column label="状态" align="center">
                     <template slot-scope="scope">
                         <el-switch
@@ -36,11 +16,11 @@
                             inactive-color="#dcdfe6"
                             active-text="开启"
                             inactive-text="关闭"
+                            v-if="scope.row.is_admin != 1"
                         ></el-switch>
                     </template>
                 </el-table-column>
-                <el-table-column prop="created_at" label="创建时间"></el-table-column>
-                <el-table-column label="操作" width="180px" align="center">
+                <el-table-column label="操作" minWidth="170" align="center">
                     <template slot-scope="scope">
                         <el-button v-if="scope.row.is_admin != 1" icon="el-icon-edit" type="primary" @click="handleEdit(scope.row)"
                             >编辑</el-button
@@ -55,49 +35,72 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <div class="pagination">
+                <el-pagination
+                    background
+                    layout="total, prev, pager, next"
+                    :current-page="query.page"
+                    :page-size="query.per_page"
+                    :total="total"
+                    @current-change="handlePageChange"
+                ></el-pagination>
+            </div>
         </div>
         <!-- 添加弹出框 -->
-        <drawer title="添加菜单" :display.sync="createVisible" :width="drawerWidth">
-            <create-menu v-if="createVisible == true" @on-success="onSuccess"></create-menu>
+        <drawer title="添加角色" :display.sync="createVisible" :width="drawerWidth">
+            <create-role v-if="createVisible == true" @on-success="onSuccess"></create-role>
         </drawer>
         <!-- 编辑弹出框 -->
-        <drawer title="编辑菜单" :display.sync="editVisible" :width="drawerWidth">
-            <edit-menu v-if="editVisible == true" :menuInfo="menuInfo" @on-success="onSuccess"></edit-menu>
+        <drawer title="编辑角色" :display.sync="editVisible" :width="drawerWidth">
+            <edit-role v-if="editVisible == true" :roleId="roleId" @on-success="onSuccess"></edit-role>
         </drawer>
     </div>
 </template>
 
 <script>
-import drawer from '../component/Drawer';
-import editMenu from './Edit';
-import createMenu from './Create';
-import { delMenu } from '../../api/menu';
-import { menuList } from '../../api/menu';
-import { quickEditMenu } from '../../api/menu';
+import drawer from '../../components/Drawer';
+import createRole from './Create';
+import editRole from './Edit';
+import { roleList } from '../../api/role';
+import { delRole } from '../../api/role';
+import { quickEditRole } from '../../api/role';
 export default {
-    name: 'menus',
-    components: { createMenu, editMenu, drawer },
+    name: 'role',
+    components: { createRole, editRole, drawer },
     data() {
         return {
             drawerWidth: '500px',
+            query: {
+                username: '',
+                page: 1,
+                per_page: 15
+            },
+            total: 0,
             data: [],
-            menuInfo: {},
             createVisible: false,
-            editVisible: false
+            editVisible: false,
+            roleId: 0
         };
     },
     created() {
         this.getData();
     },
     methods: {
-        // 获取菜单列表
+        // 获取角色列表
         getData() {
-            menuList({}).then((res) => {
-                this.data = res.data;
+            roleList(this.query).then((res) => {
+                this.data = res.data.data;
+                this.total = res.data.total;
             });
         },
         // 刷新
         handleRefresh() {
+            this.$set(this.query, 'page', 1);
+            this.getData();
+        },
+        // 分页
+        handlePageChange(val) {
+            this.$set(this.query, 'page', val);
             this.getData();
         },
         // 快捷修改状态
@@ -109,7 +112,7 @@ export default {
             if ($event == true) {
                 status = 1;
             }
-            quickEditMenu({ id: id, status: status }).then((res) => {
+            quickEditRole({ id: id, status: status }).then((res) => {
                 if (res.code == 200) {
                     this.$message.success('修改成功');
                 } else {
@@ -123,7 +126,7 @@ export default {
         },
         // 编辑
         handleEdit(row) {
-            this.menuInfo = row;
+            this.roleId = row.id;
             this.editVisible = true;
         },
         // 添加、编辑成功回调
@@ -138,7 +141,7 @@ export default {
                 type: 'warning'
             })
                 .then(() => {
-                    delMenu({ id: row.id }).then((res) => {
+                    delRole({ id: row.id }).then((res) => {
                         if (res.code == 200) {
                             this.$message.success('删除成功');
                             this.getData();
@@ -154,25 +157,17 @@ export default {
 </script>
 
 <style lang="scss">
-.custom-tree-node {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 14px;
-    padding-right: 8px;
-}
-
 .handle-box {
     margin-bottom: 20px;
 }
+
 .handle-input {
     width: 200px;
     display: inline-block;
 }
 .table {
     width: 100%;
-    font-size: 12px;
+    font-size: 14px;
 }
 .mr10 {
     margin-right: 10px;

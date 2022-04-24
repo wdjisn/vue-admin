@@ -17,7 +17,6 @@
     </div>
 </template>
 <script>
-import { menuTree } from '../../api/menu';
 import { changePassword } from '../../api/common';
 export default {
     name: 'changePassword',
